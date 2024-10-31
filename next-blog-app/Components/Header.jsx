@@ -19,9 +19,12 @@ const Header = () => {
       <div className="text-center my-8">
         <h1 className="text-3xl sm:text-5xl font-medium">Letest Blogs</h1>
         <p className="mt-10 max-w-[740px] m-auto text-xs sm:text-base ">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis
-          quisquam in dolorum vitae fugit, error harum? Hic ut labore pariatur
-          provident, atque quaerat harum eius eos velit dolorum voluptate rem
+          Explore a powerful blogging app designed to bring your stories to
+          life! With rich text editing, customizable themes, and interactive
+          commenting, this platform makes it easy to create, publish, and
+          connect with your audience. Perfect for writers, influencers, and
+          creators looking to share ideas, engage followers, and grow their
+          online presence.
         </p>
         <form
           className="flex justify-between max-w-[500px] scale-75 sm:scale-100 mx-auto mt-10 border border-black shadow-[-7px_7px_0px_#000000]"
@@ -32,7 +35,10 @@ const Header = () => {
             placeholder="Enter your email"
             className="pl-4 outline-none"
           />
-          <button type="submit" className="border-l border-black py-4 px-4 sm:px-8 active:bg-gray-600 active:text-white">
+          <button
+            type="submit"
+            className="border-l border-black py-4 px-4 sm:px-8 active:bg-gray-600 active:text-white "
+          >
             Subscribe
           </button>
         </form>
