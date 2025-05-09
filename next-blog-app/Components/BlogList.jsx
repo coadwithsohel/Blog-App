@@ -1,10 +1,32 @@
-import { blog_data ,assets} from '@/Assets/assets'
-import React, { useState } from 'react'
-import BlogItem from './BlogItem'
+import { blog_data, assets } from "@/Assets/assets";
+import React, { useEffect, useState } from "react";
+import BlogItem from "./BlogItem";
+import axios from "axios";
 
 const BlogList = () => {
+  const [menu, setMenu] = useState("All");
+  const [blogs, setBlogs] = useState([]);
 
-    const [menu , setMenu] = useState('All')
+  const fetchBlogs = async () => {
+    try {
+      const response = await axios.get("/api/blogs");
+      const fetchedBlogs = response.data?.blogs;
+
+      if (Array.isArray(fetchedBlogs)) {
+        setBlogs(fetchedBlogs);
+      } else {
+        console.error("Invalid response format:", response.data);
+        setBlogs([]); // fallback to empty array
+      }
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+      setBlogs([]); // fallback to empty array to avoid crash
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
   return (
     <div>
       <div className="flex justify-center gap-6 my-10 ">
@@ -26,6 +48,7 @@ const BlogList = () => {
         >
           Technology
         </button>
+
         <button
           onClick={() => setMenu("Startup")}
           className={
@@ -48,21 +71,22 @@ const BlogList = () => {
         </button>
       </div>
       <div className="flex flex-wrap justify-around gap-4 gap-y-10 mb-16 xl:mx-24 ">
-        {blog_data.filter((item)=>menu === "All" ? true : item.category === menu ).map((item, index) => {
-          return (
-            <BlogItem
-              key={index}
-              id={item.id}
-              image={item.image}
-              description={item.description}
-              category={item.category}
-              title={item.title}
-            />
-          );
-        })}
+        {Array.isArray(blogs) &&
+          blogs
+            .filter((item) => (menu === "All" ? true : item.category === menu))
+            .map((item) => (
+              <BlogItem
+                key={item._id}
+                id={item._id}
+                image={item.image}
+                description={item.description}
+                category={item.category}
+                title={item.title}
+              />
+            ))}
       </div>
     </div>
   );
-}
+};
 
 export default BlogList;

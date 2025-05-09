@@ -2,6 +2,7 @@
 
 import { assets, blog_data } from "@/Assets/assets";
 import Footer from "@/Components/Footer";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -9,14 +10,13 @@ import React, { useEffect, useState } from "react";
 const page = ({ params }) => {
   const [data, setData] = useState(null);
 
-  const fetchDataBlog = () => {
-    for (let i = 0; i < blog_data.length; i++) {
-      if (Number(params.id) === blog_data[i].id) {
-        setData(blog_data[i]);
-        console.log(blog_data[i]);
-        break;
-      }
-    }
+  const fetchDataBlog = async () => {
+    const responce = await axios.get("/api/blogs", {
+      params: {
+        id: params.id,
+      },
+    });
+    setData(responce.data);
   };
   useEffect(() => {
     fetchDataBlog();
@@ -24,7 +24,7 @@ const page = ({ params }) => {
 
   return data ? (
     <>
-      <div className="bg-gray-200 py-5 px-5 md:px-12 lg:px-28 ">  
+      <div className="bg-gray-200 py-5 px-5 md:px-12 lg:px-28 ">
         <div className="flex justify-between items-center">
           <Link href={"/"}>
             <Image
@@ -45,7 +45,7 @@ const page = ({ params }) => {
           </h1>
           <Image
             className="mx-auto mt-6 border border-white rounded-full "
-            src={data.author_img}
+            src={data.authorImg}
             width={60}
             height={60}
             alt=""
