@@ -4,6 +4,7 @@ import BlogItem from "./BlogItem";
 import axios from "axios";
 
 const BlogList = () => {
+  
   const [menu, setMenu] = useState("All");
   const [blogs, setBlogs] = useState([]);
 

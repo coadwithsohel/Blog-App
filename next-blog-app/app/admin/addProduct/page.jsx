@@ -12,7 +12,7 @@ const page = () => {
     description: "",
     category: "Startup",
     author: "Sohel khan",
-    authorImage: "/author_img.png",
+    authorImg: "/sohelkhan.jpg",
   });
 
   const onChangeHandler = (event) => {
@@ -21,16 +21,17 @@ const page = () => {
     setData((data) => ({ ...data, [name]: value }));
     console.log(data);
   };
-  
-  const onSubmitHandler = async (e)=> { 
+
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("category", data.category);
     formData.append("author", data.author);
-    formData.append("authorImage", data.authorImage);
+    formData.append("authorImg", data.authorImg || "/sohelkhan.jpg"); // Default image if no file is uploaded
     formData.append("image", image);
+
     const response = await axios.post("/api/blogs", formData);
     if (response.data.success) {
       toast.success("Blog added successfully");
@@ -40,14 +41,12 @@ const page = () => {
         description: "",
         category: "Startup",
         author: "Sohel khan",
-        authorImage: "/author_img.png",
+        authorImg: "/sohelkhan.jpg",
       });
     } else {
       toast.error("Something went wrong");
     }
-  }
-
-
+  };
   return (
     <>
       <form onSubmit={onSubmitHandler} className="pt-5 px-5 sm:pt-12 sm:pl-16">
@@ -101,7 +100,7 @@ const page = () => {
           <option value="Technology">Technology</option>
           <option value="Lifestyle">Lifestyle</option>
         </select>
-        <br/>
+        <br />
         <button type="submit" className="mt-8 w-40 h-12 bg-black text-white">
           ADD
         </button>

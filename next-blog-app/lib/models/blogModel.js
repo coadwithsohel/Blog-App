@@ -1,37 +1,37 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const blogSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    description: {
-        type: String,
-        required: true,
-    },
-    category: {
-        type: String,
-        required: true,
-    },
-    author: {
-        type: String,
-        required: true,
-    },
-    image: {
-        type: String,
-        required: true,
-    },
-    authorImg: {
-        type: String,
-        required: true,
-    },
-    date: {
-        type: Date,
-        default: Date.now,
-    }
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
+    domains: ["your-domain.com"],
+  },
+  authorImg: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
+const BlogModel = mongoose.models.blog || mongoose.model("blog", blogSchema);
 
-const BlogModel = mongoose.models.blog || mongoose.model('blog', blogSchema);
-
-export default BlogModel; 
+export default BlogModel;

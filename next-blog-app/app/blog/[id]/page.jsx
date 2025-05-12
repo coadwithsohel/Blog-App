@@ -11,12 +11,17 @@ const page = ({ params }) => {
   const [data, setData] = useState(null);
 
   const fetchDataBlog = async () => {
-    const responce = await axios.get("/api/blogs", {
-      params: {
-        id: params.id,
-      },
-    });
-    setData(responce.data);
+    try {
+      const response = await axios.get("/api/blogs", {
+        params: {
+          id: params.id,
+        },
+      });
+      console.log("Fetched Data:", response.data); // Debugging
+      setData(response.data.blog);
+    } catch (error) {
+      console.error("Error fetching blog data:", error);
+    }
   };
   useEffect(() => {
     fetchDataBlog();
@@ -44,11 +49,12 @@ const page = ({ params }) => {
             {data.title}
           </h1>
           <Image
-            className="mx-auto mt-6 border border-white rounded-full "
-            src={data.authorImg}
+            className="mx-auto mt-6 border border-white rounded-full"
+            src={data.authorImg} // Ensure this is a valid URL
             width={60}
             height={60}
-            alt=""
+            alt={data.author || "Author Image"}
+            unoptimized // Use this if the image is not optimized by Next.js
           />
           <p className="mt-1 pb-2 text-lg max-w-[720px] mx-auto ">
             {data.author}
@@ -58,45 +64,14 @@ const page = ({ params }) => {
       <div className="mx-5 max-w-[800px] md:mx-auto mt-[-100px] mb-10">
         <Image
           className="border-4 border-white"
-          src={data.image}
+          src={data.image} // Ensure this is a valid URL
           width={1280}
           height={720}
-          alt=""
+          alt={data.title || "Blog Image"}
+          unoptimized // Use this if the image is not optimized by Next.js
         />
-        <h1 className="my-8 text-[26px] font-semibold">Introduction:</h1>
-        <p>{data.description}</p>
-        <h3 className="my-5 text-[18px] font-semibold">
-          Step 1: Self-Reflection and Goal Setting
-        </h3>
-        <p className="my-3">
-          Self-reflection is a powerful tool for personal growth. It allows
-          individuals to look inward, assess their experiences, and understand
-          their strengths, weaknesses, and values.
-        </p>
-        <p className="my-3">
-          Self-reflection is a powerful tool for personal growth. It allows
-          individuals to look inward, assess their experiences, and understand
-          their strengths, weaknesses, and values.
-        </p>
-        <h3 className="my-5 text-[18px] font-semibold">
-          Step 1: Self-Reflection and Goal Setting
-        </h3>
-        <p className="my-3">
-          Self-reflection is a powerful tool for personal growth. It allows
-          individuals to look inward, assess their experiences, and understand
-          their strengths, weaknesses, and values.
-        </p>
-        <p className="my-3">
-          Self-reflection is a powerful tool for personal growth. It allows
-          individuals to look inward, assess their experiences, and understand
-          their strengths, weaknesses, and values.
-        </p>
-        <h3 className="my-5 text-[18px] font-semibold">Conclusion</h3>
-        <p className="my-3">
-          Incorporating self-reflection and goal setting into our daily lives
-          empowers us to grow with intention. Reflection helps us understand
-          where we are, while clear goals guide us toward where we want to be.
-        </p>
+
+       <div className="blog-content" dangerouslySetInnerHTML={{__html:data.description}}></div>
         <div className="my-24">
           <p className="text-black font font-semibold my-4">
             Share this artical on social media
